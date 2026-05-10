@@ -1,0 +1,35 @@
+# Dockerfile.frontend — ambiente di sviluppo per il corso WebGIS
+#
+# Base: Node 20 LTS su Debian slim. Pesa ~250MB (vs ~1GB di node:20 standard).
+# Include: git, curl, vim — gli strumenti minimi che potresti voler usare da terminale
+# dentro il Dev Container di VS Code.
+#
+# Si avvia con `sleep infinity` (vedi docker-compose.yml): il container resta vivo
+# come "macchina di sviluppo". Il dev server Vite si avvia manualmente da VS Code
+# con `npm run dev` quando vuoi.
+
+FROM node:20-bookworm-slim
+
+# Strumenti utili durante lo sviluppo
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    curl \
+    ca-certificates \
+    vim-tiny \
+    && rm -rf /var/lib/apt/lists/*
+
+# Utente non-root (best practice). Lo userà VS Code Dev Containers.
+ARG USERNAME=node
+# L'immagine node:20 ha già l'utente "node" con UID 1000.
+
+# Cartella di lavoro (sarà sovrascritta dal mount di docker-compose)
+WORKDIR /workspace
+
+# Versione di npm aggiornata (l'immagine base potrebbe avere una versione vecchia)
+RUN npm install -g npm@latest
+
+USER ${USERNAME}
+
+# Comando di default: nessuno. Il container resta vivo grazie a `sleep infinity`
+# definito in docker-compose.yml. Il dev server lo avvii tu con `npm run dev`.
+CMD ["bash"]

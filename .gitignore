@@ -1,0 +1,38 @@
+# Dipendenze
+node_modules/
+frontend/node_modules/
+
+# Build output
+dist/
+build/
+.vite/
+
+# Editor
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Docker volumi locali (se mai montati su path)
+geoserver-data/
+postgis-data/
+
+# QA / temporanei
+qa-*.jpg
+*.tmp

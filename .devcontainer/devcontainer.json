@@ -1,0 +1,60 @@
+{
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+  "name": "Corso WebGIS — Esplora Padova",
+
+  // Riusiamo il docker-compose della radice del repo. Il Dev Container si attacca
+  // al servizio "frontend" e gli altri (geoserver, db) sono raggiungibili
+  // tramite i nomi di servizio (es. http://geoserver:8080 dall'interno).
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "frontend",
+  "workspaceFolder": "/workspace",
+
+  // Cartella in cui VS Code si apre quando fa "Reopen in Container"
+  "shutdownAction": "stopCompose",
+
+  // Estensioni installate automaticamente DENTRO il container
+  // (non serve installarle a mano sul Windows host).
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "eamodio.gitlens",
+        "mhutchie.git-graph",
+        "redhat.vscode-yaml",
+        "mongodb.mongodb-vscode",
+        "yzhang.markdown-all-in-one",
+        "geo-data.geo-data-viewer"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "files.eol": "\n",
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+
+  // Porte da inoltrare automaticamente dall'host (Windows) al container.
+  // Quando Vite parte su :5173 dentro il container, il browser su Windows
+  // può aprirlo a http://localhost:5173 senza configurazione.
+  "forwardPorts": [5173, 4173, 8080],
+  "portsAttributes": {
+    "5173": { "label": "Vite dev server",   "onAutoForward": "openBrowserOnce" },
+    "4173": { "label": "Vite preview" },
+    "8080": { "label": "GeoServer" }
+  },
+
+  // Comando eseguito UNA VOLTA dopo la prima creazione del container.
+  // Installa le dipendenze del frontend in modo che lo studente possa
+  // eseguire `npm run dev` immediatamente.
+  "postCreateCommand": "cd frontend && npm install",
+
+  // Comando eseguito ogni volta che VS Code si attacca al container.
+  // Mostra un messaggio di benvenuto.
+  "postAttachCommand": {
+    "welcome": "echo '✓ Ambiente pronto. Servizi: GeoServer su http://localhost:8080  |  per il dev server: cd frontend && npm run dev'"
+  },
+
+  "remoteUser": "node"
+}

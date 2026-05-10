@@ -1,0 +1,19 @@
+{
+  "name": "corso-webgis-esplora-padova",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "WebGIS app Esplora Padova — codice del corso video di Federico Gianoli",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "maplibre-gl": "^4.7.1"
+  }
+}

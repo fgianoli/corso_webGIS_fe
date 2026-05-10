@@ -1,0 +1,92 @@
+# Corso WebGIS "Esplora Padova" — ambiente di sviluppo
+#
+# Servizi:
+#   - frontend  : Node 20 + Vite (dev server su :5173) — qui scrivi il codice
+#   - geoserver : Kartoza GeoServer 2.24 (UI su :8080) — pubblica i layer di Padova
+#   - db        : PostGIS 16 (porta interna 5432) — backend opzionale per GeoServer
+#
+# Avvio rapido:
+#   docker compose up -d
+#
+# Stop e pulizia:
+#   docker compose down            # ferma i container, mantiene i volumi
+#   docker compose down -v         # ferma e cancella anche i dati GeoServer/PostGIS
+#
+# VS Code Dev Containers: il file .devcontainer/devcontainer.json si attacca
+# automaticamente al servizio "frontend" come ambiente di sviluppo.
+
+services:
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: corso_frontend
+    working_dir: /workspace
+    volumes:
+      # Monta tutto il repo nel container in modo bidirezionale.
+      # Cambi che fai in VS Code sono visti dal container e viceversa.
+      - .:/workspace:cached
+      # Volume nominato per node_modules: evita conflitti host/container
+      # e tiene il dev server veloce su Windows (WSL2).
+      - frontend_node_modules:/workspace/frontend/node_modules
+    ports:
+      - "5173:5173"      # Vite dev server
+      - "4173:4173"      # Vite preview (npm run preview)
+    environment:
+      - CHOKIDAR_USEPOLLING=true   # hot-reload affidabile su Windows/WSL2
+      - VITE_GEOSERVER_URL=http://localhost:8080/geoserver
+    # Tieni il container vivo per VS Code Dev Containers.
+    # Il dev server si avvia manualmente con `npm run dev` da dentro VS Code.
+    command: sleep infinity
+    depends_on:
+      - geoserver
+
+  geoserver:
+    image: kartoza/geoserver:2.24.2
+    container_name: corso_geoserver
+    ports:
+      - "8080:8080"
+    environment:
+      - GEOSERVER_ADMIN_USER=admin
+      - GEOSERVER_ADMIN_PASSWORD=corsowebgis
+      - INITIAL_MEMORY=512M
+      - MAXIMUM_MEMORY=1G
+      - STABLE_EXTENSIONS=vectortiles-plugin
+      - SAMPLE_DATA=false
+      # CORS abilitato lato server (per i video in cui si fanno chiamate da localhost:5173)
+      - CORS_ENABLED=true
+      - CORS_ALLOWED_ORIGINS=*
+      - CORS_ALLOWED_METHODS=GET,POST,PUT,DELETE,HEAD,OPTIONS
+    volumes:
+      # Persistenza data directory di GeoServer (workspace, store, layer, style)
+      - geoserver_data:/opt/geoserver/data_dir
+      # Cartella host con i dataset Padova montata read-only dentro il container.
+      # Lo studente nel V4 punterà lo store al path /data/padova-corso.gpkg
+      - ./data:/data:ro
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/geoserver/web/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # Servizio opzionale — abilitalo solo se vuoi usare PostGIS come backend GeoServer.
+  # Per attivarlo: docker compose --profile postgis up -d
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: corso_postgis
+    profiles: ["postgis"]
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=padova
+      - POSTGRES_USER=padova
+      - POSTGRES_PASSWORD=padova
+    volumes:
+      - postgis_data:/var/lib/postgresql/data
+
+volumes:
+  frontend_node_modules:
+  geoserver_data:
+  postgis_data:
