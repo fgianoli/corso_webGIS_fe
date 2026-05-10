@@ -1,0 +1,138 @@
+{
+  "type": "FeatureCollection",
+  "name": "poi_padova",
+  "features": [
+    {
+      "type": "Feature",
+      "id": 1,
+      "geometry": { "type": "Point", "coordinates": [11.8761, 45.3989] },
+      "properties": {
+        "id": 1,
+        "name": "Prato della Valle",
+        "category": "piazza",
+        "description": "La piazza più grande d'Italia, con isola ellittica circondata da statue e canale."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2,
+      "geometry": { "type": "Point", "coordinates": [11.8806, 45.4012] },
+      "properties": {
+        "id": 2,
+        "name": "Basilica di Sant'Antonio",
+        "category": "monumento",
+        "description": "Basilica del XIII secolo, meta di pellegrinaggio dedicata al Santo."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 3,
+      "geometry": { "type": "Point", "coordinates": [11.8794, 45.4117] },
+      "properties": {
+        "id": 3,
+        "name": "Cappella degli Scrovegni",
+        "category": "monumento",
+        "description": "Capolavoro di Giotto (1303-1305), affreschi sulla vita di Cristo e Maria."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 4,
+      "geometry": { "type": "Point", "coordinates": [11.8768, 45.4076] },
+      "properties": {
+        "id": 4,
+        "name": "Piazza dei Signori",
+        "category": "piazza",
+        "description": "Cuore civico di Padova con la Torre dell'Orologio e Palazzo del Capitanio."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 5,
+      "geometry": { "type": "Point", "coordinates": [11.8767, 45.4067] },
+      "properties": {
+        "id": 5,
+        "name": "Palazzo della Ragione",
+        "category": "monumento",
+        "description": "Antico tribunale e mercato medievale con il Salone, una delle più grandi sale pensili al mondo."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 6,
+      "geometry": { "type": "Point", "coordinates": [11.8772, 45.4088] },
+      "properties": {
+        "id": 6,
+        "name": "Caffè Pedrocchi",
+        "category": "monumento",
+        "description": "Storico caffè ottocentesco, simbolo del Risorgimento padovano."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 7,
+      "geometry": { "type": "Point", "coordinates": [11.8775, 45.4072] },
+      "properties": {
+        "id": 7,
+        "name": "Palazzo Bo — Università di Padova",
+        "category": "istituzione",
+        "description": "Sede storica dell'Università (fondata nel 1222). Qui insegnò Galileo Galilei."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 8,
+      "geometry": { "type": "Point", "coordinates": [11.8804, 45.3995] },
+      "properties": {
+        "id": 8,
+        "name": "Orto Botanico",
+        "category": "parco",
+        "description": "Il più antico orto botanico universitario al mondo (1545), Patrimonio UNESCO."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 9,
+      "geometry": { "type": "Point", "coordinates": [11.8740, 45.4120] },
+      "properties": {
+        "id": 9,
+        "name": "Musei Civici agli Eremitani",
+        "category": "istituzione",
+        "description": "Complesso museale che include la Pinacoteca e il Museo Archeologico."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 10,
+      "geometry": { "type": "Point", "coordinates": [11.8696, 45.4068] },
+      "properties": {
+        "id": 10,
+        "name": "Castello Carrarese",
+        "category": "monumento",
+        "description": "Fortezza medievale con la Torlonga (oggi Specola, antico osservatorio astronomico)."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 11,
+      "geometry": { "type": "Point", "coordinates": [11.8757, 45.4108] },
+      "properties": {
+        "id": 11,
+        "name": "Stazione di Padova",
+        "category": "trasporti",
+        "description": "Stazione ferroviaria principale, hub regionale del Veneto."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 12,
+      "geometry": { "type": "Point", "coordinates": [11.8814, 45.4053] },
+      "properties": {
+        "id": 12,
+        "name": "Parco Treves",
+        "category": "parco",
+        "description": "Giardino romantico ottocentesco progettato da Giuseppe Jappelli."
+      }
+    }
+  ]
+}
