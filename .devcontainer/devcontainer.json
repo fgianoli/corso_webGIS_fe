@@ -46,8 +46,8 @@
   },
 
   // Comando eseguito UNA VOLTA dopo la prima creazione del container.
-  // Installa le dipendenze del frontend in modo che lo studente possa
-  // eseguire `npm run dev` immediatamente.
+  // Installa le dipendenze del frontend cosi' lo studente puo' fare
+  // direttamente `npm run dev` senza altri passaggi.
   "postCreateCommand": "cd frontend && npm install",
 
   // Comando eseguito ogni volta che VS Code si attacca al container.
@@ -56,5 +56,10 @@
     "welcome": "echo '✓ Ambiente pronto. Servizi: GeoServer su http://localhost:8080  |  per il dev server: cd frontend && npm run dev'"
   },
 
-  "remoteUser": "node"
+  // Giriamo come root nel container. E' meno "best practice" rigorosa, ma:
+  //  1. Elimina i problemi di permessi sui volumi nominati Docker
+  //     (node_modules creato come root → utente non-root non scriverebbe)
+  //  2. Su Windows + Docker Desktop e' la combinazione meno dolorosa
+  //  3. In un Dev Container effimero per un corso non ha implicazioni di sicurezza
+  "remoteUser": "root"
 }
