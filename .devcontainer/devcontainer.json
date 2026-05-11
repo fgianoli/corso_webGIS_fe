@@ -38,11 +38,12 @@
   // Porte da inoltrare automaticamente dall'host (Windows) al container.
   // Quando Vite parte su :5173 dentro il container, il browser su Windows
   // può aprirlo a http://localhost:5173 senza configurazione.
-  "forwardPorts": [5173, 4173, 8080],
+  "forwardPorts": [5173, 4173, 8080, 5432],
   "portsAttributes": {
     "5173": { "label": "Vite dev server",   "onAutoForward": "openBrowserOnce" },
     "4173": { "label": "Vite preview" },
-    "8080": { "label": "GeoServer" }
+    "8080": { "label": "GeoServer" },
+    "5432": { "label": "PostGIS" }
   },
 
   // Comando eseguito UNA VOLTA dopo la prima creazione del container.

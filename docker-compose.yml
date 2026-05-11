@@ -1,16 +1,17 @@
 # Corso WebGIS "Esplora Padova" — ambiente di sviluppo
 #
-# Servizi:
+# Servizi (tutti partono con `docker compose up -d`):
 #   - frontend  : Node 20 + Vite (dev server su :5173) — qui scrivi il codice
-#   - geoserver : Kartoza GeoServer 2.24 (UI su :8080) — pubblica i layer di Padova
-#   - db        : PostGIS 16 (porta interna 5432) — backend opzionale per GeoServer
+#   - geoserver : Kartoza GeoServer 2.24 (UI su :8080) — WMS, WFS e vector tiles
+#                 (plugin vectortiles-plugin abilitato per il V8)
+#   - db        : PostGIS 16 (porta 5432) — backend di GeoServer (V4 store alternativo)
 #
 # Avvio rapido:
 #   docker compose up -d
 #
 # Stop e pulizia:
 #   docker compose down            # ferma i container, mantiene i volumi
-#   docker compose down -v         # ferma e cancella anche i dati GeoServer/PostGIS
+#   docker compose down -v         # ferma e cancella anche dati GeoServer/PostGIS
 #
 # VS Code Dev Containers: il file .devcontainer/devcontainer.json si attacca
 # automaticamente al servizio "frontend" come ambiente di sviluppo.
@@ -41,6 +42,7 @@ services:
     command: sleep infinity
     depends_on:
       - geoserver
+      - db
 
   geoserver:
     image: kartoza/geoserver:2.24.2
@@ -71,12 +73,14 @@ services:
       retries: 5
       start_period: 60s
 
-  # Servizio opzionale — abilitalo solo se vuoi usare PostGIS come backend GeoServer.
-  # Per attivarlo: docker compose --profile postgis up -d
+  # PostGIS — database spaziale, backend tipico di GeoServer in PA.
+  # Parte di default. Lo usiamo nel V4/V8 come store alternativo al GeoPackage.
+  #
+  # Connessione DA HOST:    psql -h localhost -p 5432 -U padova -d padova   (pwd: padova)
+  # Connessione DA GEOSERVER (dentro la rete Docker): host=db, port=5432
   db:
     image: postgis/postgis:16-3.4
     container_name: corso_postgis
-    profiles: ["postgis"]
     ports:
       - "5432:5432"
     environment:
@@ -85,6 +89,11 @@ services:
       - POSTGRES_PASSWORD=padova
     volumes:
       - postgis_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U padova -d padova"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   frontend_node_modules:
